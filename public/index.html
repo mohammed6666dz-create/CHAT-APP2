@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>تسجيل الدخول / إنشاء حساب</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: url("https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1920&q=80") no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background: rgba(0, 0, 0, 0.75);
+      padding: 40px;
+      border-radius: 15px;
+      width: 340px;
+      text-align: center;
+      color: #fff;
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
+      animation: fadeIn 1s ease;
+    }
+
+    h2 {
+      color: #00eaff;
+      margin-bottom: 25px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 5px;
+      background-color: #00eaff;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #00c4d9;
+    }
+
+    .toggle {
+      margin-top: 20px;
+      font-size: 0.9em;
+    }
+
+    .toggle a {
+      color: #00eaff;
+      text-decoration: none;
+    }
+
+    .toggle a:hover {
+      text-decoration: underline;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="loginBox">
+    <h2>تسجيل الدخول</h2>
+    <input type="text" placeholder="اسم المستخدم أو البريد الإلكتروني">
+    <input type="password" placeholder="كلمة المرور">
+    <button onclick="goToChat()">دخول</button>
+    <div class="toggle">
+      ليس لديك حساب؟ <a href="#" onclick="showRegister()">إنشاء حساب</a>
+    </div>
+  </div>
+
+  <div class="container" id="registerBox" style="display:none;">
+    <h2>إنشاء حساب</h2>
+    <input type="text" placeholder="اسم المستخدم">
+    <input type="email" placeholder="البريد الإلكتروني">
+    <input type="password" placeholder="كلمة المرور">
+    <button onclick="goToChat()">تسجيل</button>
+    <div class="toggle">
+      لديك حساب؟ <a href="#" onclick="showLogin()">تسجيل الدخول</a>
+    </div>
+  </div>
+
+  <script>
+    function showRegister() {
+      document.getElementById("loginBox").style.display = "none";
+      document.getElementById("registerBox").style.display = "block";
+    }
+    function showLogin() {
+      document.getElementById("registerBox").style.display = "none";
+      document.getElementById("loginBox").style.display = "block";
+    }
+    function goToChat() {
+      window.location.href = "chat.html";
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>شات كفو</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Tajawal", sans-serif;
+      background: url("https://i.pinimg.com/originals/a7/b0/15/a7b015d343ad801ad6da8c242dc6ae06.gif") no-repeat center center fixed;
+      background-size: cover;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: rgba(0, 0, 0, 0.7);
+      color: cyan;
+      padding: 15px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      box-shadow: 0 0 10px rgba(0,255,255,0.3);
+      position: relative;
+    }
+
+    #profile-btn {
+      position: absolute;
+      left: 15px;
+      top: 10px;
+      background: rgba(0, 255, 255, 0.2);
+      border: 1px solid cyan;
+      color: cyan;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #profile-btn:hover {
+      background: cyan;
+      color: black;
+    }
+
+    #chat-box {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      scrollbar-width: thin;
+      scrollbar-color: cyan transparent;
+    }
+
+    .message {
+      background: rgba(0, 153, 255, 0.25);
+      color: #fff;
+      margin: 10px 0;
+      padding: 12px 16px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      max-width: 70%;
+      word-break: break-word;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      margin-left: 10px;
+      border: 2px solid cyan;
+    }
+
+    .message strong {
+      color: cyan;
+      display: block;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+
+    .input-box {
+      display: flex;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.8);
+      border-top: 1px solid rgba(0,255,255,0.3);
+    }
+
+    #message-input {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      outline: none;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      font-size: 15px;
+      margin-left: 10px;
+      transition: background 0.3s;
+    }
+
+    #message-input:focus {
+      background: rgba(255,255,255,0.2);
+    }
+
+    #send-btn {
+      background: cyan;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 10px;
+      margin-right: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #000;
+      transition: 0.3s;
+    }
+
+    #send-btn:hover {
+      background: #00ffffa1;
+    }
+
+    /* أنماط الحركة للأسماء في الشات */
+    @keyframes rainbow {
+      0% { color: #ff0000; }
+      16% { color: #ffff00; }
+      33% { color: #00ff00; }
+      50% { color: #00ffff; }
+      66% { color: #0000ff; }
+      83% { color: #ff00ff; }
+      100% { color: #ff0000; }
+    }
+
+    @keyframes glow {
+      0% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #e60073, 0 0 20px #e60073; }
+      50% { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6; }
+      100% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #e60073, 0 0 20px #e60073; }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes slide {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+      20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+
+    /* أنماط الحركة المحددة للشات */
+    .rainbow-text {
+      animation: rainbow 3s infinite !important;
+    }
+
+    .glow-text {
+      animation: glow 2s infinite !important;
+    }
+
+    .pulse-text {
+      animation: pulse 1.5s infinite !important;
+      display: inline-block;
+    }
+
+    .gradient-text {
+      background: linear-gradient(45deg, #ff0000, #ff9900, #33cc33, #3399ff, #cc33ff) !important;
+      background-size: 400% 400% !important;
+      
+      -webkit-text-fill-color: transparent !important;
+      animation: slide 4s ease infinite !important;
+    }
+
+    .shake-text {
+      animation: shake 0.5s infinite !important;
+      display: inline-block;
+    }
+
+    .fire-text {
+      background: linear-gradient(45deg, #ff0000, #ff9900, #ffff00) !important;
+      -webkit-text-fill-color: transparent !important;
+      -webkit-text-fill-color: transparent !important;
+      animation: pulse 1s infinite !important;
+    }
+
+    .ice-text {
+      background: linear-gradient(45deg, #00ffff, #0066ff, #6600ff) !important;
+      -webkit-text-fill-color: transparent !important;
+      -webkit-text-fill-color: transparent !important;
+      animation: slide 3s infinite !important;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    مرحبًا بك في الشات
+    <button id="profile-btn">👤 الملف الشخصي</button>
+  </header>
+
+  <div id="chat-box"></div>
+
+  <div class="input-box">
+    <input type="text" id="message-input" placeholder="اكتب رسالتك..." />
+    <button id="send-btn">إرسال</button>
+  </div>
+
+  <script>
+    // جلب بيانات المستخدم من localStorage
+    const user = JSON.parse(localStorage.getItem("chatUser")) || {
+      name: "مجهول",
+      avatar: "https://i.imgur.com/4M7IWwP.png",
+      nameEffect: "none"
+    };
+
+    const chatBox = document.getElementById("chat-box");
+    const input = document.getElementById("message-input");
+    const sendBtn = document.getElementById("send-btn");
+    const profileBtn = document.getElementById("profile-btn");
+
+    // دالة لإضافة رسالة مع تأثير الاسم
+    function addMessage(text) {
+      const msg = document.createElement("div");
+      msg.className = "message";
+      
+      // إنشاء عنصر الاسم مع التأثير المناسب
+      const nameElement = document.createElement("strong");
+      nameElement.textContent = user.name;
+      
+      // تطبيق تأثير الاسم إذا كان موجوداً
+      if (user.nameEffect && user.nameEffect !== "none") {
+        nameElement.classList.add(user.nameEffect + "-text");
+      }
+      
+      msg.innerHTML = `
+        <img src="${user.avatar}" alt="user" />
+        <div>
+          <span class="name-container"></span>
+          <span>${text}</span>
+        </div>
+      `;
+      
+      // إضافة الاسم مع التأثير
+      const nameContainer = msg.querySelector('.name-container');
+      nameContainer.appendChild(nameElement);
+      
+      chatBox.appendChild(msg);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // إضافة رسالة ترحيبية عند الدخول
+    window.addEventListener('load', () => {
+      addMessage("انضم إلى الشات!");
+    });
+
+    sendBtn.addEventListener("click", () => {
+      const text = input.value.trim();
+      if (text !== "") {
+        addMessage(text);
+        input.value = "";
+      }
+    });
+
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") sendBtn.click();
+    });
+
+    profileBtn.addEventListener("click", () => {
+      window.location.href = "profile.html";
+    });
+  </script>
+</body>
+</html>

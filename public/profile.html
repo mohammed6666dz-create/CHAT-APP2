@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الملف الشخصي</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Tajawal", sans-serif;
+      background: #000;
+      color: white;
+      text-align: center;
+    }
+
+    header {
+      background: rgba(0, 0, 0, 0.85);
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+    }
+
+    header h3 {
+      margin: 0;
+      font-size: 1.5em;
+      color: cyan;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+    }
+
+    header button {
+      background: rgba(0,255,255,0.2);
+      border: 1px solid cyan;
+      color: cyan;
+      border-radius: 12px;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    header button:hover {
+      background: cyan;
+      color: black;
+      box-shadow: 0 0 10px cyan;
+    }
+
+    .cover-container {
+      position: relative;
+      width: 100%;
+      height: 220px;
+      background: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      border-bottom: 3px solid cyan;
+      overflow: hidden;
+    }
+
+    .cover-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: 0.3s;
+    }
+
+    .cover-container:hover img {
+      transform: scale(1.02);
+    }
+
+    .profile-pic {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      border: 4px solid cyan;
+      object-fit: cover;
+      margin-top: -65px;
+      background: #000;
+      z-index: 2;
+      position: relative;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+
+    .profile-pic:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px cyan;
+    }
+
+    .info {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h2 {
+      color: cyan;
+      margin-bottom: 10px;
+      font-size: 1.6em;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+    }
+
+    input[type="text"] {
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: white;
+      padding: 10px 14px;
+      border-radius: 8px;
+      text-align: center;
+      width: 260px;
+      font-size: 1em;
+      margin-top: 5px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    input[type="text"]:focus {
+      background: rgba(0,255,255,0.15);
+      box-shadow: 0 0 8px cyan;
+    }
+
+    .tabs {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .tabs button {
+      background: rgba(0,255,255,0.15);
+      border: 1px solid cyan;
+      color: cyan;
+      border-radius: 12px;
+      padding: 10px 18px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 0.95em;
+      font-weight: bold;
+    }
+
+    .tabs button:hover {
+      background: cyan;
+      color: black;
+      box-shadow: 0 0 8px cyan;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    /* أنماط قسم المميزات */
+    .features-section {
+      display: none;
+      margin-top: 20px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .features-section h3 {
+      color: cyan;
+      margin-bottom: 20px;
+    }
+
+    .color-options {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .color-option {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .color-option:hover {
+      transform: scale(1.1);
+    }
+
+    .color-option.active {
+      border-color: white;
+      transform: scale(1.1);
+    }
+
+    .gradient-options {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .gradient-option {
+      width: 80px;
+      height: 50px;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .gradient-option:hover {
+      transform: scale(1.05);
+    }
+
+    .gradient-option.active {
+      border-color: white;
+      transform: scale(1.05);
+    }
+
+    .feature-group {
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .feature-group h4 {
+      color: cyan;
+      margin-bottom: 15px;
+    }
+
+    .color-preview {
+      width: 100%;
+      height: 60px;
+      border-radius: 8px;
+      margin-top: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      background: linear-gradient(45deg, cyan, #000);
+    }
+
+    /* أنماط قسم اسم GIF المتحرك */
+    .gif-section {
+      display: none;
+      margin-top: 20px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .gif-section h3 {
+      color: cyan;
+      margin-bottom: 20px;
+    }
+
+    .gif-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .gif-option {
+      padding: 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.3s, border-color 0.3s;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .gif-option:hover {
+      transform: scale(1.05);
+      border-color: cyan;
+    }
+
+    .gif-option.active {
+      border-color: cyan;
+      transform: scale(1.05);
+    }
+
+    .gif-preview {
+      width: 100%;
+      height: 80px;
+      border-radius: 8px;
+      margin-top: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.05);
+      font-size: 1.4em;
+      font-weight: bold;
+    }
+
+    /* أنماط الحركة للأسماء */
+    @keyframes rainbow {
+      0% { color: #ff0000; }
+      16% { color: #ffff00; }
+      33% { color: #00ff00; }
+      50% { color: #00ffff; }
+      66% { color: #0000ff; }
+      83% { color: #ff00ff; }
+      100% { color: #ff0000; }
+    }
+
+    @keyframes glow {
+      0% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #e60073, 0 0 20px #e60073; }
+      50% { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6; }
+      100% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #e60073, 0 0 20px #e60073; }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes slide {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+      20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+
+    /* أنماط الحركة المحددة */
+    .rainbow-text {
+      animation: rainbow 3s infinite;
+    }
+
+    .glow-text {
+      animation: glow 2s infinite;
+    }
+
+    .pulse-text {
+      animation: pulse 1.5s infinite;
+    }
+
+    .gradient-text {
+      background: linear-gradient(45deg, #ff0000, #ff9900, #33cc33, #3399ff, #cc33ff);
+      background-size: 400% 400%;
+     -webkit-text-fill-color: transparent;
+      -webkit-text-fill-color: transparent;
+      animation: slide 4s ease infinite;
+    }
+
+    .shake-text {
+      animation: shake 0.5s infinite;
+      display: inline-block;
+    }
+
+    .fire-text {
+      background: linear-gradient(45deg, #ff0000, #ff9900, #ffff00);
+      -webkit-text-fill-color: transparent;
+      -webkit-text-fill-color: transparent;
+      animation: pulse 1s infinite;
+    }
+
+    .ice-text {
+      background: linear-gradient(45deg, #00ffff, #0066ff, #6600ff);
+      -webkit-text-fill-color: transparent;
+      -webkit-text-fill-color: transparent;
+      animation: slide 3s infinite;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h3>ملفي الشخصي</h3>
+    <button id="backBtn">⬅ العودة إلى الشات</button>
+  </header>
+
+  <!-- مكان خلفية البروفايل -->
+  <div class="cover-container" id="coverContainer">
+    <img id="coverImg" src="https://i.pinimg.com/originals/0d/d4/5d/0dd45d0bbf78c943b8b5b6f59d3a97b1.jpg" alt="Cover">
+  </div>
+  <input type="file" id="coverInput" accept="image/*">
+
+  <!-- صورة الملف الشخصي -->
+  <img id="avatar" class="profile-pic" src="/mnt/data/0c44ba34-0b7d-4833-bf73-dd352660ea55.png" alt="Profile">
+  <input type="file" id="avatarInput" accept="image/*">
+
+  <div class="info">
+    <h2 id="name">مجهول</h2>
+    <input type="text" id="status" placeholder="💔 SAD">
+  </div>
+
+  <div class="tabs">
+    <button id="featuresBtn">المميزات</button>
+    <button id="gifBtn">GIF الاسم</button>
+    <button>الأصدقاء</button>
+    <button>تجاهل</button>
+    <button>خيارات</button>
+    <button>الحساب</button>
+  </div>
+
+  <!-- قسم المميزات -->
+  <div class="features-section" id="featuresSection">
+    <h3>مميزات البروفايل</h3>
+    
+    <div class="feature-group">
+      <h4>اختر لون البروفايل</h4>
+      <div class="color-options">
+        <div class="color-option" style="background-color: cyan;" data-color="cyan"></div>
+        <div class="color-option" style="background-color: #ff4081;" data-color="#ff4081"></div>
+        <div class="color-option" style="background-color: #4caf50;" data-color="#4caf50"></div>
+        <div class="color-option" style="background-color: #ff9800;" data-color="#ff9800"></div>
+        <div class="color-option" style="background-color: #9c27b0;" data-color="#9c27b0"></div>
+        <div class="color-option" style="background-color: #2196f3;" data-color="#2196f3"></div>
+        <div class="color-option" style="background-color: #f44336;" data-color="#f44336"></div>
+        <div class="color-option" style="background-color: #00bcd4;" data-color="#00bcd4"></div>
+      </div>
+    </div>
+    
+    <div class="feature-group">
+      <h4>خلفيات متدرجة</h4>
+      <div class="gradient-options">
+        <div class="gradient-option" style="background: linear-gradient(45deg, #ff4081, #9c27b0);" data-gradient="linear-gradient(45deg, #ff4081, #9c27b0)"></div>
+        <div class="gradient-option" style="background: linear-gradient(45deg, #4caf50, #2196f3);" data-gradient="linear-gradient(45deg, #4caf50, #2196f3)"></div>
+        <div class="gradient-option" style="background: linear-gradient(45deg, #ff9800, #f44336);" data-gradient="linear-gradient(45deg, #ff9800, #f44336)"></div>
+        <div class="gradient-option" style="background: linear-gradient(45deg, #9c27b0, #673ab7);" data-gradient="linear-gradient(45deg, #9c27b0, #673ab7)"></div>
+        <div class="gradient-option" style="background: linear-gradient(45deg, #00bcd4, #009688);" data-gradient="linear-gradient(45deg, #00bcd4, #009688)"></div>
+      </div>
+    </div>
+    
+    <div class="feature-group">
+      <h4>معاينة اللون المختار</h4>
+      <div class="color-preview" id="colorPreview">
+        معاينة اللون
+      </div>
+    </div>
+    
+    <button id="applyColorBtn" style="margin-top: 15px;">تطبيق الألوان المختارة</button>
+  </div>
+
+  <!-- قسم اسم GIF المتحرك -->
+  <div class="gif-section" id="gifSection">
+    <h3>اختر نمط الاسم المتحرك</h3>
+    
+    <div class="feature-group">
+      <h4>المعاينة الحالية</h4>
+      <div class="gif-preview" id="gifPreview">
+        مجهول
+      </div>
+    </div>
+    
+    <div class="feature-group">
+      <h4>أنماط الحركة المتاحة</h4>
+      <div class="gif-options" id="gifOptions">
+        <div class="gif-option" data-effect="rainbow">
+          <div class="rainbow-text">قوس قزح</div>
+          <small>ألوان متغيرة باستمرار</small>
+        </div>
+        <div class="gif-option" data-effect="glow">
+          <div class="glow-text">متوهج</div>
+          <small>توهج نيون ملون</small>
+        </div>
+        <div class="gif-option" data-effect="pulse">
+          <div class="pulse-text">نابض</div>
+          <small>تكبير وتصغير</small>
+        </div>
+        <div class="gif-option" data-effect="gradient">
+          <div class="gradient-text">متدرج</div>
+          <small>تدرج ألوان متحرك</small>
+        </div>
+        <div class="gif-option" data-effect="shake">
+          <div class="shake-text">مهتز</div>
+          <small>اهتزاز مستمر</small>
+        </div>
+        <div class="gif-option" data-effect="fire">
+          <div class="fire-text">ناري</div>
+          <small>ألوان النار</small>
+        </div>
+        <div class="gif-option" data-effect="ice">
+          <div class="ice-text">جليدي</div>
+          <small>ألوان الثلج</small>
+        </div>
+        <div class="gif-option" data-effect="none">
+          <div>عادي</div>
+          <small>بدون تأثير</small>
+        </div>
+      </div>
+    </div>
+    
+    <button id="applyGifBtn" style="margin-top: 15px;">تطبيق نمط الاسم</button>
+  </div>
+
+  <script>
+    const avatar = document.getElementById("avatar");
+    const coverImg = document.getElementById("coverImg");
+    const coverInput = document.getElementById("coverInput");
+    const nameEl = document.getElementById("name");
+    const statusInput = document.getElementById("status");
+    const backBtn = document.getElementById("backBtn");
+    const avatarInput = document.getElementById("avatarInput");
+    const featuresBtn = document.getElementById("featuresBtn");
+    const featuresSection = document.getElementById("featuresSection");
+    const colorOptions = document.querySelectorAll(".color-option");
+    const gradientOptions = document.querySelectorAll(".gradient-option");
+    const colorPreview = document.getElementById("colorPreview");
+    const applyColorBtn = document.getElementById("applyColorBtn");
+    const gifBtn = document.getElementById("gifBtn");
+    const gifSection = document.getElementById("gifSection");
+    const gifPreview = document.getElementById("gifPreview");
+    const gifOptions = document.querySelectorAll(".gif-option");
+    const applyGifBtn = document.getElementById("applyGifBtn");
+
+    let user = JSON.parse(localStorage.getItem("chatUser")) || {
+      name: "مجهول",
+      avatar: "/mnt/data/0c44ba34-0b7d-4833-bf73-dd352660ea55.png",
+      cover: "https://i.pinimg.com/originals/0d/d4/5d/0dd45d0bbf78c943b8b5b6f59d3a97b1.jpg",
+      status: "💔 SAD",
+      profileColor: "cyan",
+      profileGradient: "linear-gradient(45deg, cyan, #000)",
+      nameEffect: "none"
+    };
+
+    // تهيئة الواجهة
+    function initializeUI() {
+      avatar.src = user.avatar;
+      coverImg.src = user.cover;
+      nameEl.textContent = user.name;
+      statusInput.value = user.status;
+      
+      // تطبيق الألوان المحفوظة
+      applyProfileColors();
+      
+      // تحديد الخيارات المختارة مسبقاً
+      selectColorOption(user.profileColor);
+      selectGradientOption(user.profileGradient);
+      
+      // تطبيق تأثير الاسم
+      applyNameEffect();
+    }
+
+    // تطبيق ألوان البروفايل
+    function applyProfileColors() {
+      const root = document.documentElement;
+      root.style.setProperty('--profile-color', user.profileColor);
+      
+      // تحديث معاينة اللون
+      colorPreview.style.background = user.profileGradient;
+      
+      // تحديث ألوان العناصر
+      document.querySelectorAll('h2, h3, header h3').forEach(el => {
+        el.style.color = user.profileColor;
+      });
+      
+      document.querySelectorAll('header button, .tabs button').forEach(el => {
+        el.style.borderColor = user.profileColor;
+        el.style.color = user.profileColor;
+      });
+      
+      document.querySelector('.profile-pic').style.borderColor = user.profileColor;
+      document.querySelector('.cover-container').style.borderBottomColor = user.profileColor;
+      
+      // تحديث الظلال
+      document.querySelectorAll('header, .profile-pic:hover, header button:hover, .tabs button:hover').forEach(el => {
+        el.style.boxShadow = `0 0 10px ${user.profileColor}`;
+      });
+    }
+
+    // تطبيق تأثير الاسم
+    function applyNameEffect() {
+      // إزالة جميع الفئات السابقة
+      nameEl.className = '';
+      gifPreview.className = 'gif-preview';
+      
+      // إضافة الفئة الجديدة
+      if (user.nameEffect !== 'none') {
+        nameEl.classList.add(user.nameEffect + '-text');
+        gifPreview.classList.add(user.nameEffect + '-text');
+      }
+      
+      // تحديث المعاينة
+      updateGifPreview();
+    }
+
+    // تحديث معاينة GIF
+    function updateGifPreview() {
+      gifPreview.textContent = user.name;
+    }
+
+    // تحديد خيار اللون
+    function selectColorOption(color) {
+      colorOptions.forEach(option => {
+        option.classList.remove('active');
+        if (option.getAttribute('data-color') === color) {
+          option.classList.add('active');
+        }
+      });
+    }
+
+    // تحديد خيار التدرج
+    function selectGradientOption(gradient) {
+      gradientOptions.forEach(option => {
+        option.classList.remove('active');
+        if (option.getAttribute('data-gradient') === gradient) {
+          option.classList.add('active');
+        }
+      });
+    }
+
+    // تهيئة الأحداث
+    function initializeEvents() {
+      avatar.addEventListener("click", () => avatarInput.click());
+      coverImg.parentElement.addEventListener("click", () => coverInput.click());
+
+      avatarInput.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = () => {
+            avatar.src = reader.result;
+            user.avatar = reader.result;
+            localStorage.setItem("chatUser", JSON.stringify(user));
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      coverInput.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = () => {
+            coverImg.src = reader.result;
+            user.cover = reader.result;
+            localStorage.setItem("chatUser", JSON.stringify(user));
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      statusInput.addEventListener("input", () => {
+        user.status = statusInput.value;
+        localStorage.setItem("chatUser", JSON.stringify(user));
+      });
+
+      backBtn.addEventListener("click", () => {
+        window.location.href = "chat.html";
+      });
+
+      // أحداث قسم المميزات
+      featuresBtn.addEventListener("click", () => {
+        featuresSection.style.display = featuresSection.style.display === "block" ? "none" : "block";
+        gifSection.style.display = "none";
+      });
+
+      // أحداث قسم GIF
+      gifBtn.addEventListener("click", () => {
+        gifSection.style.display = gifSection.style.display === "block" ? "none" : "block";
+        featuresSection.style.display = "none";
+        
+        // تحديد تأثير الاسم الحالي عند فتح القسم
+        gifOptions.forEach(option => {
+          option.classList.remove('active');
+          if (option.getAttribute('data-effect') === user.nameEffect) {
+            option.classList.add('active');
+          }
+        });
+      });
+
+      // أحداث اختيار الألوان
+      colorOptions.forEach(option => {
+        option.addEventListener("click", () => {
+          const color = option.getAttribute('data-color');
+          user.profileColor = color;
+          selectColorOption(color);
+          updateColorPreview();
+        });
+      });
+
+      // أحداث اختيار التدرجات
+      gradientOptions.forEach(option => {
+        option.addEventListener("click", () => {
+          const gradient = option.getAttribute('data-gradient');
+          user.profileGradient = gradient;
+          selectGradientOption(gradient);
+          updateColorPreview();
+        });
+      });
+
+      // تطبيق الألوان
+      applyColorBtn.addEventListener("click", () => {
+        applyProfileColors();
+        localStorage.setItem("chatUser", JSON.stringify(user));
+        alert("تم تطبيق الألوان بنجاح!");
+      });
+
+      // أحداث اختيار تأثير الاسم
+      gifOptions.forEach(option => {
+        option.addEventListener("click", () => {
+          // إزالة التحديد من جميع العناصر
+          gifOptions.forEach(opt => opt.classList.remove('active'));
+          
+          // تحديد العنصر المختار
+          option.classList.add('active');
+          user.nameEffect = option.getAttribute('data-effect');
+          applyNameEffect();
+        });
+      });
+
+      // تطبيق تأثير الاسم
+      applyGifBtn.addEventListener("click", () => {
+        applyNameEffect();
+        localStorage.setItem("chatUser", JSON.stringify(user));
+        alert("تم تطبيق نمط الاسم بنجاح! سيظهر في الشات.");
+      });
+    }
+
+    // تحديث معاينة اللون
+    function updateColorPreview() {
+      colorPreview.style.background = user.profileGradient;
+    }
+
+    // بدء التطبيق
+    initializeUI();
+    initializeEvents();
+  </script>
+</body>
+</html>
